@@ -1,8 +1,8 @@
 let mongoose=require('mongoose');
 const taskSchema=new mongoose.Schema({
    name:{type:"String",required:true},
-   completed:{type:"boolean",required:false,default:false},
-   doing:{type:"boolean",required:false,default:false}
+   completed:{type:"boolean",required:true},
+   doing:{type:"boolean",required:true}
 
 
 })

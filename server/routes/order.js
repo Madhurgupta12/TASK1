@@ -3,11 +3,12 @@ const router=express.Router();
 const {Task}=require("../model/task")
 router.post("/add",async(req,res)=>{
 const {name}=req.body;
-
+const {completed}=req.body;
+const {doing}=req.body;
 
 if(name==null)
 return res.send({message:"Name is required"})
-const add=new Task({name:name});
+const add=new Task({name:name,completed:completed,doing:doing});
 
  const rr=await Task.findOne({name:name});
 try{
@@ -41,15 +42,15 @@ router.post("/delete",async(req,res)=>{
         const deletedTask = await Task.findByIdAndDelete(rr);
         const rrr=await Task.find({});
         console.log(rrr);
-return res.status(200).json({message:"Task deleted successfully"});
+return res.status(200).json({success:true});
         }
         else
-        return res.json({message:"Task Not Present"})
+        return res.json({message:"Task Not Present",success:false})
 
     }
     catch(err)
     {
-return res.status(404).json({message:err.message});
+return res.status(404).json({message:err.message,success:false});
     }
 
 })
@@ -59,13 +60,13 @@ router.get("/completed",async(req,res)=>{
     try{
 
 
-    const rr=await Task.find({completed:true});
-    return res.status(200).json({message:rr});
+    const rr=await Task.find({});
+    return res.status(200).json({data:rr,success:true});
 
     }
     catch(err)
     {
-return res.status(404).json({message:err.message});
+return res.status(404).json({message:err.message,success:false});
     }
 })
 
